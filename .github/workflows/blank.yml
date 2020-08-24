@@ -31,8 +31,8 @@ jobs:
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
         cd /opt/
         tar -zcvf rt-n56.tar.gz ./rt-n56u/
-    - name: mail gitsource
-      uses: devellany/send-mailer@v1.0.2
+   - name: Send mailer
+     uses: devellany/send-mail@v1.0.2
       with:
         host: smtp.qq.com
         account: ${{secrets.ACCOUNT}}
