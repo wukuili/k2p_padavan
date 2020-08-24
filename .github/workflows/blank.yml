@@ -31,16 +31,39 @@ jobs:
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
         cd /opt/
         tar -zcvf rt-n56.tar.gz ./rt-n56u/
-    - name: Send mailer
-      uses: devellany/send-mail@v1.0.2
+#     - name: Send mailer
+#       uses: devellany/send-mail@v1.0.2
+#       with:
+#         host: smtp.qq.com
+#         account: ${{secrets.ACCOUNT}}
+#         password: ${{secrets.MAIL_PASSWORD}}
+#         sender: github
+#         from: ${{secrets.MAIL_ADDRESS}}
+#         to: lyjsdu1989@126.com
+#         subject: rt-56u source code
+#         body: source code
+#         contentType: text/html
+#         attachments: '[{"path":"/opt/rt-n56.tar.gz"}]'
+    - name: scp-pipeline
+  # You may pin to the exact commit or the version.
+  # uses: cross-the-world/scp-pipeline@b4d86397129250eb940fabdc3f7a435436d2503a
+      uses: cross-the-world/scp-pipeline@v1.2.1
       with:
-        host: smtp.qq.com
-        account: ${{secrets.ACCOUNT}}
-        password: ${{secrets.MAIL_PASSWORD}}
-        sender: github
-        from: ${{secrets.MAIL_ADDRESS}}
-        to: lyjsdu1989@126.com
-        subject: rt-56u source code
-        body: source code
-        contentType: text/html
-        attachments: '[{"path":"/opt/rt-n56.tar.gz"}]'
+        # ssh remote host
+        host: ${{secrets.PI_HOST}}
+        # ssh remote port
+        port: ${{secrets.PI_PORT}}
+        # ssh remote user
+        user: ${{secrets.PI_USER}}
+        # content of ssh private key. ex raw content of ~/.ssh/id_rsa
+#         key: # optional
+        # ssh remote password
+        pass: ${{secrets.PI_PASSWORD}}
+        # connection timeout to remote host
+#         connect_timeout: # optional, default is 30s
+        # source to copy
+        local: /opt/rt-n56.tar.gz
+        # destination for copy
+#         remote: # optional
+        # scp from local to remote
+#         scp: # optional
