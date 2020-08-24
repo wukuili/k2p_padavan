@@ -30,7 +30,8 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
         cd /opt/
-        tar -zcvf rt-n56.tar.gz ./rt-n56u/
+        tar -zcf rt-n56.tar.gz ./rt-n56u/
+        ls |grep rt-n56
 #     - name: Send mailer
 #       uses: devellany/send-mail@v1.0.2
 #       with:
