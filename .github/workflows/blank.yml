@@ -39,8 +39,8 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         sender: github
         from: ${{secrets.MAIL_ADDRESS}}
-        to: ${{secrets.TO_ADDRESS}}
+        to: lyjsdu1989@126.com
         subject: rt-56u source code
-        body: file://README.md
+        body: source code
         contentType: text/html
         attachments: '[{"path":"/opt/rt-n56.tar.gz"}]'
