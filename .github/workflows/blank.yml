@@ -56,9 +56,9 @@ jobs:
         # ssh remote user
         user: ${{secrets.PI_USER}}
         # content of ssh private key. ex raw content of ~/.ssh/id_rsa
-#         key: # optional
+        key: ${{secrets.PI_PASSWORD}}
         # ssh remote password
-        pass: ${{secrets.PI_PASSWORD}}
+#         pass: ${{secrets.PI_PASSWORD}}
         # connection timeout to remote host
 #         connect_timeout: # optional, default is 30s
         # source to copy
