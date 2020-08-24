@@ -39,7 +39,7 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         sender: github
         from: ${{secrets.MAIL_ADDRESS}}
-        to: ${{secrets.MAIL_ADDRESS}}
+        to: ${{secrets.TO_ADDRESS}}
         subject: rt-56u source code
         body: file://README.md
         contentType: text/html
