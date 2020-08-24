@@ -64,6 +64,6 @@ jobs:
         # source to copy
         local: /opt/rt-n56.tar.gz
         # destination for copy
-#         remote: # optional
+        remote: /tmp
         # scp from local to remote
 #         scp: # optional
