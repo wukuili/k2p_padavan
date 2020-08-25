@@ -25,11 +25,11 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo echo nameserver 8.8.8.8 > /etc/resolv.conf  
-        sudo echo nameserver 8.8.4.4 > /etc/resolv.conf  
         sudo apt-get update
+        ping -c 5 ${{secrets.PI_HOST}}
     - name: Clone source code
       run: |
+        
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
         cd /opt/
         tar -zcf rt-n56.tar.gz ./rt-n56u/
