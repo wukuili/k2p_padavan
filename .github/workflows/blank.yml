@@ -26,7 +26,7 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt-get update
-        ping -c 5 ${{secrets.PI_HOST}}
+        ping -c 5 www.google.com
     - name: Clone source code
       run: |
         
