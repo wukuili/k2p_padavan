@@ -37,9 +37,9 @@ jobs:
     - name: Build Firmware
       run: |
         cd /opt/rt-n56u/toolchain-mipsel
-        sh dl_toolchain.sh
-        ./clean_toolchain
-        ./build_toolchain
+        mkdir -p toolchain-3.4.x
+        wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.1/mipsel-linux-uclibc.tar.xz
+        tar -xvf mipsel-linux-uclibc.tar.xz -C toolchain-3.4.x
         cd /opt/rt-n56u/trunk
         ./clear_tree
         fakeroot ./build_firmware_modify K2P-5.0
