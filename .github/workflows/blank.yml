@@ -26,30 +26,29 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt-get update
+        sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot \
+        cpio git python-docutils gettext automake autopoint texinfo build-essential help2man \
+        pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget \
+        module-init-tools
     - name: Clone source code
       run: |
         
-        git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
-        tar -zcf /opt/rt-n56u.tar.gz /opt/rt-n56u/
-#     - name: Send mailer
-#       uses: devellany/send-mail@v1.0.2
-#       with:
-#         host: smtp.qq.com
-#         account: ${{secrets.ACCOUNT}}
-#         password: ${{secrets.MAIL_PASSWORD}}
-#         sender: github
-#         from: ${{secrets.MAIL_ADDRESS}}
-#         to: lyjsdu1989@126.com
-#         subject: rt-56u source code
-#         body: source code
-#         contentType: text/html
-#         attachments: '[{"path":"/opt/rt-n56.tar.gz"}]'
+        git clone --depth=1 https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
+        cd /opt/rt-n56u/toolchain-mipsel
+        sh dl_toolchain.sh
+        ./clean_toolchain
+        ./build_toolchain
+        sed -i -e 's/CONFIG_FIRMWARE_INCLUDE_OPENVPN=n/CONFIG_FIRMWARE_INCLUDE_OPENVPN=y/g' -e 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' \
+        -e 's/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=y/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n/g' -e /opt/rt-n56u/trunk/configs/templates/K2P-5.0.config
+        cd /opt/rt-n56u/trunk
+        ./clear_tree
+        fakeroot ./build_firmware_modify K2P-5.0
     - name : Upload packages
       uses: actions/upload-artifact@master
       if: always()
       with:
         name: Padavan-packages
-        path: /opt/rt-n56u.tar.gz
+        path: trunk/images
 #     - name: scp-pipeline
 #   # You may pin to the exact commit or the version.
 #   # uses: cross-the-world/scp-pipeline@b4d86397129250eb940fabdc3f7a435436d2503a
