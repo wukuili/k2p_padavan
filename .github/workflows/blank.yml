@@ -33,14 +33,13 @@ jobs:
     - name: Clone source code
       run: |
         git clone --depth=1 https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
+        sed -i -e 's/CONFIG_FIRMWARE_INCLUDE_OPENVPN=n/CONFIG_FIRMWARE_INCLUDE_OPENVPN=y/g' -e 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' -e 's/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=y/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n/g' /opt/rt-n56u/trunk/configs/templates/K2P-5.0.config
+    - name: Build Firmware
+      run: |
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         ./clean_toolchain
         ./build_toolchain
-    - name: Build Firmware
-      run: |
-        sed -i -e 's/CONFIG_FIRMWARE_INCLUDE_OPENVPN=n/CONFIG_FIRMWARE_INCLUDE_OPENVPN=y/g' -e 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' \
-        -e 's/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=y/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n/g' /opt/rt-n56u/trunk/configs/templates/K2P-5.0.config
         cd /opt/rt-n56u/trunk
         ./clear_tree
         fakeroot ./build_firmware_modify K2P-5.0
@@ -50,26 +49,3 @@ jobs:
       with:
         name: Padavan-packages
         path: trunk/images
-#     - name: scp-pipeline
-#   # You may pin to the exact commit or the version.
-#   # uses: cross-the-world/scp-pipeline@b4d86397129250eb940fabdc3f7a435436d2503a
-#       uses: cross-the-world/scp-pipeline@v1.2.1
-#       with:
-#         # ssh remote host
-#         host: ${{secrets.PI_HOST}}
-#         # ssh remote port
-#         port: ${{secrets.PI_PORT}}
-#         # ssh remote user
-#         user: ${{secrets.PI_USER}}
-#         # content of ssh private key. ex raw content of ~/.ssh/id_rsa
-#         key: ${{secrets.PI_PASSWORD}}
-#         # ssh remote password
-# #         pass: ${{secrets.PI_PASSWORD}}
-#         # connection timeout to remote host
-# #         connect_timeout: # optional, default is 30s
-#         # source to copy
-#         local: /opt/rt-n56.tar.gz
-#         # destination for copy
-#         remote: /tmp
-#         # scp from local to remote
-# #         scp: # optional
