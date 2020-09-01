@@ -37,8 +37,10 @@ jobs:
         sh dl_toolchain.sh
         ./clean_toolchain
         ./build_toolchain
+    - name: Build Firmware
+      run: |
         sed -i -e 's/CONFIG_FIRMWARE_INCLUDE_OPENVPN=n/CONFIG_FIRMWARE_INCLUDE_OPENVPN=y/g' -e 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' \
-        -e 's/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=y/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n/g' -e /opt/rt-n56u/trunk/configs/templates/K2P-5.0.config
+        -e 's/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=y/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n/g' /opt/rt-n56u/trunk/configs/templates/K2P-5.0.config
         cd /opt/rt-n56u/trunk
         ./clear_tree
         fakeroot ./build_firmware_modify K2P-5.0
