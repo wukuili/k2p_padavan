@@ -32,8 +32,10 @@ jobs:
         module-init-tools
     - name: Clone source code
       run: |
-        git clone --depth=1 https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
-        sed -i -e 's/CONFIG_FIRMWARE_INCLUDE_OPENVPN=n/CONFIG_FIRMWARE_INCLUDE_OPENVPN=y/g' -e 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' -e 's/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=y/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n/g' /opt/rt-n56u/trunk/configs/templates/K2P-5.0.config
+        git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+        sed -i -e 's/CONFIG_FIRMWARE_INCLUDE_OPENVPN=n/CONFIG_FIRMWARE_INCLUDE_OPENVPN=y/g' -e 's/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=y/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n/g' \
+        -e 's/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=y/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n/g' -e 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' \
+        -e 's/CONFIG_FIRMWARE_INCLUDE_MENTOHUST=y/CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n/g' /opt/rt-n56u/trunk/configs/templates/K2P-5.0.config
     - name: Build Firmware
       run: |
         cd /opt/rt-n56u/toolchain-mipsel
@@ -43,9 +45,11 @@ jobs:
         cd /opt/rt-n56u/trunk
         ./clear_tree
         fakeroot ./build_firmware_modify K2P-5.0
+        mkdir -p /opt/images/
+        sudo mv -f images/*.trx /opt/images/
     - name : Upload packages
       uses: actions/upload-artifact@master
       if: always()
       with:
         name: Padavan-packages
-        path: /opt/rt-n56u/trunk/images
+        path: /opt/images/
